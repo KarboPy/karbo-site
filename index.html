@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KARBO - إدارة فيديوهات TikTok</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #8a2be2;
+            --primary-dark: #6a1cb0;
+            --secondary: #ff6b6b;
+            --dark: #1a1a2e;
+            --darker: #0f0f1a;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--light);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
+            border-bottom: 2px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: var(--shadow);
+        }
+
+        .logo-text h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo-text p {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+
+        /* Cards */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: rgba(26, 26, 46, 0.8);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(138, 43, 226, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(138, 43, 226, 0.3);
+            box-shadow: 0 15px 30px rgba(138, 43, 226, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-icon {
+            background: rgba(138, 43, 226, 0.2);
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: var(--primary);
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--light);
+        }
+
+        .card-description {
+            color: #aaa;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .features {
+            margin: 20px 0;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            color: #ccc;
+        }
+
+        .feature i {
+            color: var(--success);
+            font-size: 0.9rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            text-decoration: none;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger), #b02a37);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #b02a37, var(--danger));
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning), #d39e00);
+            color: #212529;
+        }
+
+        .btn-warning:hover {
+            background: linear-gradient(135deg, #d39e00, var(--warning));
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.4);
+        }
+
+        /* Session Input */
+        .session-input {
+            margin: 25px 0;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #ccc;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.2);
+        }
+
+        /* Status */
+        .status-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 25px;
+            border-left: 5px solid var(--primary);
+        }
+
+        .status-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-content {
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            font-family: monospace;
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+
+        /* Developer Section */
+        .developer-section {
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.9), rgba(15, 15, 26, 0.9));
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 50px;
+            text-align: center;
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            box-shadow: var(--shadow);
+        }
+
+        .developer-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .developer-title i {
+            color: var(--primary);
+        }
+
+        .developer-cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .dev-card {
+            background: rgba(138, 43, 226, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            width: 280px;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .dev-card:hover {
+            background: rgba(138, 43, 226, 0.2);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .dev-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .dev-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .dev-card p {
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+
+        .dev-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(138, 43, 226, 0.3);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .dev-link:hover {
+            background: rgba(138, 43, 226, 0.5);
+            gap: 12px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo-text h1 {
+                font-size: 2rem;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .developer-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Animation */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(138, 43, 226, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(138, 43, 226, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(138, 43, 226, 0); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon pulse">
+                    <i class="fab fa-tiktok"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>KARBO TOOLS</h1>
+                    <p>أدوات متقدمة لإدارة حساب TikTok</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="cards-container">
+            <!-- Hide Videos Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-eye-slash"></i>
+                    </div>
+                    <h2 class="card-title">إخفاء الفيديوهات</h2>
+                </div>
+                
+                <p class="card-description">
+                    أداة تحويل فيديوهات TikTok من عامة إلى خاصة. تقوم هذه الأداة باسترجاع جميع الفيديوهات العامة وتحويلها إلى خاصة.
+                </p>
+                
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>تحويل الفيديوهات العامة إلى خاصة</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>استرجاع جميع الفيديوهات دفعة واحدة</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>تحديث تلقائي لحالة التحويل</span>
+                    </div>
+                </div>
+                
+                <div class="session-input">
+                    <div class="input-group">
+                        <label for="session1">Session ID</label>
+                        <input type="text" id="session1" placeholder="أدخل session id الخاص بحسابك">
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="runHideVideos()">
+                    <i class="fas fa-play-circle"></i>
+                    تشغيل إخفاء الفيديوهات
+                </button>
+                
+                <div class="status-container" id="status1">
+                    <div class="status-title">
+                        <i class="fas fa-info-circle"></i>
+                        حالة التشغيل
+                    </div>
+                    <div class="status-content" id="statusContent1">
+                        جاهز للتشغيل...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delete Videos Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <i class="fas fa-trash-alt"></i>
+                    </div>
+                    <h2 class="card-title">حذف الفيديوهات</h2>
+                </div>
+                
+                <p class="card-description">
+                    أداة حذف فيديوهات TikTok بسرعة وكفاءة. تقوم بحذف جميع الفيديوهات دفعة واحدة مع عرض العدد الذي تم حذفه.
+                </p>
+                
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>حذف جميع الفيديوهات دفعة واحدة</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>عمل متوازي يصل إلى 30 عملية في نفس الوقت</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>عرض عددي لحالة الحذف</span>
+                    </div>
+                </div>
+                
+                <div class="session-input">
+                    <div class="input-group">
+                        <label for="session2">Session ID</label>
+                        <input type="text" id="session2" placeholder="أدخل session id الخاص بحسابك">
+                    </div>
+                </div>
+                
+                <button class="btn btn-danger" onclick="runDeleteVideos()">
+                    <i class="fas fa-play-circle"></i>
+                    تشغيل حذف الفيديوهات
+                </button>
+                
+                <div class="status-container" id="status2">
+                    <div class="status-title">
+                        <i class="fas fa-info-circle"></i>
+                        حالة التشغيل
+                    </div>
+                    <div class="status-content" id="statusContent2">
+                        جاهز للتشغيل...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Developer Section -->
+        <div class="developer-section">
+            <h2 class="developer-title">
+                <i class="fas fa-code"></i>
+                المطور والقنوات الرسمية
+            </h2>
+            
+            <div class="developer-cards">
+                <div class="dev-card">
+                    <i class="fas fa-user-tie"></i>
+                    <h3>المطور</h3>
+                    <p>مطور البوتات وأدوات TikTok المتقدمة</p>
+                    <a href="https://t.me/thekarbo" target="_blank" class="dev-link">
+                        <i class="fab fa-telegram"></i>
+                        @thekarbo
+                    </a>
+                </div>
+                
+                <div class="dev-card">
+                    <i class="fas fa-broadcast-tower"></i>
+                    <h3>قناة الأدوات</h3>
+                    <p>قناة خاصة لعرض أحدث الأدوات والتحديثات</p>
+                    <a href="https://t.me/tools_Karbo" target="_blank" class="dev-link">
+                        <i class="fab fa-telegram"></i>
+                        @tools_Karbo
+                    </a>
+                </div>
+                
+                <div class="dev-card">
+                    <i class="fas fa-tools"></i>
+                    <h3>أدوات متقدمة</h3>
+                    <p>مجموعة متنوعة من الأدوات الاحترافية لإدارة حسابات TikTok</p>
+                    <a href="https://t.me/thekarbo" target="_blank" class="dev-link">
+                        <i class="fas fa-external-link-alt"></i>
+                        استكشاف المزيد
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2023 KARBO TOOLS - جميع الحقوق محفوظة</p>
+            <p>أدوات متخصصة لإدارة حسابات TikTok بكفاءة وأمان</p>
+            <p style="margin-top: 15px; color: #8a2be2; font-size: 1.1rem;">
+                <i class="fas fa-heart"></i> تم التطوير بحب من قبل KARBO
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Simulate bot functions
+        function runHideVideos() {
+            const session = document.getElementById('session1').value;
+            const statusContent = document.getElementById('statusContent1');
+            
+            if (!session) {
+                statusContent.innerHTML = "❌ | الرجاء إدخال Session ID";
+                statusContent.style.color = "#ff6b6b";
+                return;
+            }
+            
+            statusContent.innerHTML = "🔄 | جاري محاولة استرجاع بيانات الفيديوهات....";
+            statusContent.style.color = "#ffc107";
+            
+            // Simulate process
+            let count = 0;
+            const interval = setInterval(() => {
+                if (count < 100) {
+                    count += Math.floor(Math.random() * 5) + 1;
+                    if (count > 100) count = 100;
+                    
+                    statusContent.innerHTML = `- تم تحويل [ ${count} ] فيديو إلى خاص`;
+                    statusContent.style.color = "#28a745";
+                    
+                    if (count === 100) {
+                        clearInterval(interval);
+                        statusContent.innerHTML += "\n\n✅ | اكتملت العملية بنجاح!";
+                    }
+                }
+            }, 300);
+        }
+        
+        function runDeleteVideos() {
+            const session = document.getElementById('session2').value;
+            const statusContent = document.getElementById('statusContent2');
+            
+            if (!session) {
+                statusContent.innerHTML = "❌ | الرجاء إدخال Session ID";
+                statusContent.style.color = "#ff6b6b";
+                return;
+            }
+            
+            statusContent.innerHTML = "🔄 | جاري البحث عن الفيديوهات....";
+            statusContent.style.color = "#ffc107";
+            
+            // Simulate process
+            let count = 0;
+            const interval = setInterval(() => {
+                if (count < 50) {
+                    count += Math.floor(Math.random() * 3) + 1;
+                    if (count > 50) count = 50;
+                    
+                    statusContent.innerHTML = `عدد الفيديوهات التي تم حذفها → [ ${count} ]`;
+                    statusContent.style.color = "#dc3545";
+                    
+                    if (count === 50) {
+                        clearInterval(interval);
+                        statusContent.innerHTML += "\n\n✅ | تم حذف جميع الفيديوهات بنجاح!";
+                    }
+                }
+            }, 400);
+        }
+        
+        // Add some sample session IDs for demo
+        window.onload = function() {
+            document.getElementById('session1').value = "sample_session_id_123456789";
+            document.getElementById('session2').value = "sample_session_id_987654321";
+        }
+    </script>
+</body>
+</html>
